@@ -20,6 +20,9 @@
           <strong>Tipo: </strong>
           {{ locacao.tipoVaga || "Não informado" }}
           <br />
+          <strong>Informações: </strong>
+          {{ locacao.informacoes || "Não informado" }}
+          <br />
           <strong>Endereço: </strong>
           {{ locacao.endereco || "Não informado" }}
           <br />
