@@ -4,7 +4,7 @@
     aria-label="breadcrumbs"
   >
     <ul>
-      <li v-for="(tipo, index) in tipos" :key="index">
+      <li class="breadcrumb--item" v-for="(tipo, index) in tipos" :key="index">
         <a :href="'#' + tipo.titulo">{{ tipo.titulo }}</a>
       </li>
     </ul>

@@ -1,10 +1,10 @@
 <template>
   <div>
     <section class="section m-0 p-3">
-      <h1 class="title">{{ titulo }}</h1>
-      <h2 class="subtitle">{{ descricao }}</h2>
+      <h2 class="title">{{ titulo }}</h2>
+      <h3 class="subtitle">{{ descricao }}</h3>
 
-      <div id="team" class="columns is-multiline">
+      <div id="locacao" class="columns is-multiline">
         <CardLocacao
           v-for="(locacao, index) in locacoes"
           :key="index"
@@ -43,13 +43,13 @@ export default defineComponent({
 </script>
 
 <style>
-#team .column .card {
+#locacao .column .card {
   height: 100%;
   display: flex;
   flex-direction: column;
 }
 
-#team .column .card-footer {
+#locacao .column .card-footer {
   margin-top: auto;
 }
 </style>

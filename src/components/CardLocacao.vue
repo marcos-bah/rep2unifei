@@ -17,18 +17,29 @@
         </div>
 
         <div class="content">
-          <strong>Tipo: </strong>
-          {{ locacao.tipoVaga || "Não informado" }}
-          <br />
-          <strong>Informações: </strong>
-          {{ locacao.informacoes || "Não informado" }}
-          <br />
-          <strong>Endereço: </strong>
-          {{ locacao.endereco || "Não informado" }}
-          <br />
-          <strong>Contato: </strong>
-          {{ locacao.contato || "Não informado" }}
-          <br />
+          <div class="tipo--vaga">
+            <strong>Tipo:</strong>
+            {{ locacao.tipoVaga || "Não informado" }}
+            <br />
+          </div>
+
+          <div class="tipo--informacoes">
+            <strong>Informações:</strong>
+            {{ locacao.informacoes || "Não informado" }}
+            <br />
+          </div>
+
+          <div class="tipo--endereco">
+            <strong>Endereço:</strong>
+            {{ locacao.endereco || "Não informado" }}
+            <br />
+          </div>
+
+          <div class="tipo--contato">
+            <strong>Contato:</strong>
+            {{ locacao.contato || "Não informado" }}
+            <br />
+          </div>
         </div>
       </div>
       <footer class="card-footer">
@@ -36,7 +47,7 @@
           v-if="locacao.instagram"
           :href="locacao.instagram"
           target="_blank"
-          class="card-footer-item"
+          class="card-footer-item link--site"
           >site</a
         >
       </footer>
