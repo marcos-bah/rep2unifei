@@ -20,8 +20,8 @@
 
     <div id="navbarBasicExample" class="navbar-menu">
       <div class="navbar-start">
-        <a class="navbar-item"> Principal </a>
-        <a class="navbar-item"> Sobre </a>
+        <router-link to="/" class="navbar-item"> Principal </router-link>
+        <router-link to="/about" class="navbar-item"> Sobre </router-link>
       </div>
 
       <div class="navbar-end">
@@ -66,7 +66,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-export default {};
+export default {
+  name: "NavBar",
+};
 </script>
 
 <style></style>

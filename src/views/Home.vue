@@ -1,6 +1,5 @@
 <template>
   <div>
-    <NavBar />
     <Breadcrumb :tipos="tipos" />
     <main class="container">
       <SectionLocacao
@@ -18,7 +17,6 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import NavBar from "../components/NavBar.vue";
 import Breadcrumb from "../components/Breadcrumb.vue";
 import SectionLocacao from "../components/SectionLocacao.vue";
 import ILocacao from "@/interfaces/ILocacao";
@@ -27,7 +25,6 @@ import axios from "axios";
 export default defineComponent({
   name: "App",
   components: {
-    NavBar,
     SectionLocacao,
     Breadcrumb,
   },
