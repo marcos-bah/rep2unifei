@@ -64,7 +64,8 @@ export default defineComponent({
         }
       );
 
-      console.log(response);
+      // adicionnado em foto
+      this.setFoto(response.data.data.link);
     },
   },
 });
