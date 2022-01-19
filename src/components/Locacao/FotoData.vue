@@ -48,7 +48,9 @@ export default defineComponent({
       let dataForm = new FormData();
       const fileElement = (this.$refs.file as HTMLInputElement).files;
 
-      dataForm.append(`file`, fileElement![0]);
+      dataForm.append(`file`, fileElement![0], fileElement![0].name);
+
+      console.log(fileElement);
 
       //pegar imagem e passar para api
       const response = await fetch(`https://api.imgur.com/3/`, {
