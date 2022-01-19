@@ -1,9 +1,14 @@
 export default interface ILocacao {
     id: number;
-    tipoLocacao: string;
-    tipoVaga: string;
-    contato: string;
+    nome: string;
     endereco: string;
-    informacoes: string;
-    instagram: string;
+    contato: string;
+    descricao: string;
+    preco: number;
+    data: Date;
+    tipoAlocacao: [];
+    tipoImovel: string;
+    pessoas: number;
+    foto: string;
+    email: string;
 }

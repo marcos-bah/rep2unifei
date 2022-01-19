@@ -1,6 +1,9 @@
 <template>
   <div
-    class="column is-one-third is-full-mobile is-half-tablet is-one-third-desktop is-one-third-widescreen is-one-quarter-fullhd"
+    :class="{
+      'column is-one-third is-full-mobile is-half-tablet is-one-third-desktop is-one-third-widescreen is-one-quarter-fullhd':
+        classByDefault,
+    }"
   >
     <div class="card">
       <div class="card-image">
@@ -65,6 +68,10 @@ export default defineComponent({
     locacao: {
       type: Object as PropType<ILocacao>,
       required: true,
+    },
+    classByDefault: {
+      type: Boolean,
+      default: true,
     },
   },
 });

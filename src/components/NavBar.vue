@@ -4,8 +4,9 @@
       <a class="navbar-item" href="/">
         <div class="title">rep2unifei</div>
       </a>
-
       <a
+        :class="{ 'is-active': toggleBtn }"
+        @click="toggle"
         role="button"
         class="navbar-burger"
         aria-label="menu"
@@ -18,57 +19,93 @@
       </a>
     </div>
 
-    <div id="navbarBasicExample" class="navbar-menu">
+    <div
+      id="navbarBasicExample"
+      class="navbar-menu"
+      :class="{ 'is-active': toggleBtn }"
+    >
       <div class="navbar-start">
         <router-link to="/" class="navbar-item"> Principal </router-link>
         <router-link to="/about" class="navbar-item"> Sobre </router-link>
       </div>
 
       <div class="navbar-end">
-        <div class="navbar-item">
-          <div class="buttons">
-            <a
-              class="button is-primary"
-              href="https://docs.google.com/spreadsheets/d/1sy6CEHOTVUjGEIDzV2F_xnxGKzh6DPMK/edit?usp=sharing&ouid=113482279713136380529&rtpof=true&sd=true"
-              target="_blank"
-            >
-              <strong>Cadastrar Locação</strong>
+        <div class="navbar-item field has-addons my-0">
+          <p class="control">
+            <span class="select">
+              <select v-model="typeField" @change="type($event.target.value)">
+                <option value="all">Locações</option>
+                <option value="Repúblicas">Republicas</option>
+                <option value="Kitnets">Kitnets</option>
+                <option value="Apartamentos">Apês</option>
+              </select>
+            </span>
+          </p>
+          <p class="control">
+            <input
+              id="searchField"
+              v-model="searchField"
+              class="input"
+              type="text"
+              placeholder="Nome da alocação, endereço..."
+            />
+          </p>
+          <p class="control">
+            <a @click="search(searchField)" class="button is-primary">
+              Procurar
             </a>
-          </div>
+          </p>
+          <p v-if="searchField.length > 0" class="control">
+            <button @click="clearSearch" class="button is-text">Limpar</button>
+          </p>
+        </div>
+        <div class="navbar-item">
+          <router-link to="/form" class="button is-primary">
+            <strong>Cadastrar Locação</strong>
+          </router-link>
         </div>
       </div>
     </div>
   </nav>
 </template>
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  // Get all "navbar-burger" elements
-  const $navbarBurgers = Array.prototype.slice.call(
-    document.querySelectorAll(".navbar-burger"),
-    0
-  );
-
-  // Check if there are any navbar burgers
-  if ($navbarBurgers.length > 0) {
-    // Add a click event on each of them
-    $navbarBurgers.forEach((el) => {
-      el.addEventListener("click", () => {
-        // Get the target from the "data-target" attribute
-        const target = el.dataset.target;
-        const $target = document.getElementById(target);
-
-        // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
-        el.classList.toggle("is-active");
-        $target.classList.toggle("is-active");
-      });
-    });
-  }
-});
-
-export default {
+<script lang="ts">
+import { defineComponent } from "vue";
+import { useStore } from "vuex";
+export default defineComponent({
   name: "NavBar",
-};
+  setup() {
+    const store = useStore();
+    const search = (e: string) => {
+      store.commit("setSearch", e);
+    };
+    const type = (e: string) => {
+      store.commit("setType", e);
+    };
+    return {
+      search,
+      type,
+    };
+  },
+  data() {
+    return {
+      searchField: "",
+      typeField: "all",
+      toggleBtn: false,
+    };
+  },
+  methods: {
+    toggle() {
+      this.toggleBtn = !this.toggleBtn;
+    },
+    clearSearch() {
+      this.searchField = "";
+      this.search(this.searchField);
+      this.typeField = "all";
+      this.type(this.typeField);
+    },
+  },
+});
 </script>
 
 <style></style>

@@ -15,7 +15,7 @@ export default defineComponent({
     const store = useStore();
     store.dispatch("getLocacoes");
   },
-  name: "App",
+  name: "Home",
   components: {
     MainLocacao,
   },

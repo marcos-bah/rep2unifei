@@ -1,11 +1,17 @@
 import { RouteRecordRaw, createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
+import FormLocacao from "../views/FormLocacao.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "Home",
     component: Home
+  },
+  {
+    path: "/form",
+    name: "Form",
+    component: FormLocacao
   },
   {
     path: "/about",
@@ -15,7 +21,8 @@ const routes: Array<RouteRecordRaw> = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/About.vue")
-  }
+  },
+ 
 ];
 
 const router = createRouter({
