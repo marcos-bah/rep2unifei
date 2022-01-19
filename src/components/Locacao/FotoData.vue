@@ -49,9 +49,9 @@ export default defineComponent({
       let dataForm = new FormData();
       const fileElement = (this.$refs.file as HTMLInputElement).files;
 
-      dataForm.append(`file`, fileElement![0], fileElement![0].name);
+      dataForm.append(`image`, fileElement![0], fileElement![0].name);
 
-      console.log(fileElement);
+      console.log(fileElement![0]);
 
       //pegar imagem e passar para api com axios e imgur
       const response = await axios.post(`https://api.imgur.com/3/`, dataForm, {
