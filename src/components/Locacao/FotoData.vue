@@ -26,6 +26,7 @@
 <script lang="ts">
 import { ref, computed, defineComponent, createApp } from "vue";
 import { useStore } from "vuex";
+import axios from "axios";
 
 export default defineComponent({
   name: "FotoData",
@@ -52,17 +53,18 @@ export default defineComponent({
 
       console.log(fileElement);
 
-      //pegar imagem e passar para api
-      const response = await fetch(`https://api.imgur.com/3/`, {
-        method: "POST",
-        headers: {
-          Authorization: `Client-ID ${process.env.VUE_APP_IMGUR_CLIENT_ID}`,
-        },
-        body: dataForm,
-      });
-      const json = await response.json();
-      this.setFoto(json.data.link);
-      console.log(json);
+      //pegar imagem e passar para api com axios e imgur
+      const response = await axios.post(
+        `https://api.imgur.com/3/image`,
+        dataForm,
+        {
+          headers: {
+            Authorization: `Client-ID ${process.env.VUE_APP_IMGUR_CLIENT_ID}`,
+          },
+        }
+      );
+
+      console.log(response);
     },
   },
 });
