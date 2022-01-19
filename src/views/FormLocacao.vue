@@ -49,7 +49,7 @@
         </div>
         <div class="column">
           <h2 class="mb-4">Preview</h2>
-          <!-- <CardLocacao :locacao="locacao" :classByDefault="false" /> -->
+          <CardLocacao :locacao="locacoesData" :classByDefault="false" />
         </div>
       </div>
     </div>
@@ -62,7 +62,7 @@ import { useStore } from "vuex";
 
 import ILocacao from "@/interfaces/ILocacao";
 
-// import CardLocacao from "@/components/CardLocacao.vue";
+import CardLocacao from "@/components/CardLocacao.vue";
 import ContatoData from "@/components/Locacao/ContatoData.vue";
 import DescricaoData from "@/components/Locacao/DescricaoData.vue";
 import EmailData from "@/components/Locacao/EmailData.vue";
@@ -79,13 +79,13 @@ export default defineComponent({
   name: "Form",
   setup() {
     const store = useStore();
-    const locacoesData = store.state.locacaoLocal;
+    const locacoesData = store.state.locacaoLocal as ILocacao;
     return {
       locacoesData,
     };
   },
   components: {
-    // CardLocacao,
+    CardLocacao,
     ContatoData,
     DescricaoData,
     EmailData,
@@ -99,10 +99,7 @@ export default defineComponent({
     TermosData,
   },
   data() {
-    return {
-      //locacao tipo Ilocacao
-      locacao: {} as ILocacao,
-    };
+    return {};
   },
 });
 </script>

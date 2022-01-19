@@ -9,26 +9,29 @@
       <div class="card-image">
         <figure class="image is-4by3">
           <img
-            src="https://bulma.io/images/placeholders/1280x960.png"
+            :src="
+              locacao.foto ||
+              'https://bulma.io/images/placeholders/1280x960.png'
+            "
             alt="Placeholder image"
           />
         </figure>
       </div>
       <div class="card-content">
         <div class="content">
-          <p class="title is-4">{{ locacao.tipoLocacao }}</p>
+          <p class="title is-4">{{ locacao.nome || "Não informado" }}</p>
         </div>
 
         <div class="content">
           <div class="tipo--vaga">
             <strong>Tipo:</strong>
-            {{ locacao.tipoVaga || "Não informado" }}
+            {{ locacao.tipoImovel || "Não informado" }}
             <br />
           </div>
 
           <div class="tipo--informacoes">
-            <strong>Informações:</strong>
-            {{ locacao.informacoes || "Não informado" }}
+            <strong>Descrição:</strong>
+            {{ locacao.descricao || "Não informado" }}
             <br />
           </div>
 
@@ -46,13 +49,7 @@
         </div>
       </div>
       <footer class="card-footer">
-        <a
-          v-if="locacao.instagram"
-          :href="locacao.instagram"
-          target="_blank"
-          class="card-footer-item link--site"
-          >site</a
-        >
+        <div class="card-footer-item">R$ {{ locacao.preco }}</div>
       </footer>
     </div>
   </div>
