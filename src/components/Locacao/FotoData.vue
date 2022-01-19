@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, defineComponent, createApp } from "vue";
+import { computed, defineComponent } from "vue";
 import { useStore } from "vuex";
 import axios from "axios";
 

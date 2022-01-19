@@ -6,7 +6,7 @@
         :value="getNumeroPessoas"
         @input="setNumeroPessoas($event.target.value)"
         class="input"
-        type="text"
+        type="number"
         placeholder="1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ..."
       />
     </div>
@@ -22,9 +22,7 @@ export default defineComponent({
   name: "NumeroPessoasData",
   setup() {
     const store = useStore();
-    const getNumeroPessoas = computed(
-      () => store.state.locacaoLocal.numeroPessoas
-    );
+    const getNumeroPessoas = computed(() => store.state.locacaoLocal.pessoas);
     const setNumeroPessoas = (e: string) => {
       store.commit("setLocacaoLocalPessoas", e);
     };

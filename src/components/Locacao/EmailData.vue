@@ -10,7 +10,7 @@
               :value="getEmail"
               @input="setEmail($event.target.value)"
               class="input"
-              type="tel"
+              type="text"
               placeholder="nome.sobrenome"
             />
           </p>

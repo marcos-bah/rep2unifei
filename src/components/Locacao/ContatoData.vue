@@ -6,7 +6,7 @@
         :value="getContato"
         @input="setContato($event.target.value)"
         class="input"
-        type="text"
+        type="tel"
         placeholder="Telefone, Whatsapp..."
       />
       <p class="help">Número de telefone</p>

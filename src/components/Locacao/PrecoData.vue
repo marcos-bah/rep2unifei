@@ -13,7 +13,7 @@
               :value="getPreco"
               @input="setPreco($event.target.value)"
               class="input"
-              type="tel"
+              type="number"
               placeholder="Valor mensal"
             />
           </p>
