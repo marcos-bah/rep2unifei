@@ -54,15 +54,11 @@ export default defineComponent({
       console.log(fileElement);
 
       //pegar imagem e passar para api com axios e imgur
-      const response = await axios.post(
-        `https://api.imgur.com/3/image`,
-        dataForm,
-        {
-          headers: {
-            Authorization: `Client-ID ${process.env.VUE_APP_IMGUR_CLIENT_ID}`,
-          },
-        }
-      );
+      const response = await axios.post(`https://api.imgur.com/3/`, dataForm, {
+        headers: {
+          Authorization: `Client-ID ${process.env.VUE_APP_IMGUR_CLIENT_ID}`,
+        },
+      });
 
       console.log(response);
     },
