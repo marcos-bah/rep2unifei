@@ -1,7 +1,6 @@
 <template>
     <form id="app" @submit.prevent="checkForm" method="post">
         <h2>Adicionar uma Alocação</h2>
-        {{locacoesData}}
         <p v-if="errors.length">
             <b>Por favor, corrija o(s) seguinte(s) erro(s):</b>
             <ul>
@@ -147,9 +146,6 @@ export default defineComponent({
       }
       if (!this.locacoesData.foto) {
         this.errors.push("Por favor, preencha a foto.");
-      }
-      if (!this.locacoesData.email) {
-        this.errors.push("Por favor, preencha o email.");
       }
       if (!this.locacoesData.site) {
         this.errors.push("Por favor, preencha o site.");
