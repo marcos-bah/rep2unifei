@@ -3,6 +3,7 @@
     <label class="label">Seu contato:</label>
     <div class="control">
       <input
+        v-maska="['(##) #### - ####', '(##) # #### - ####']"
         :value="getContato"
         @input="setContato($event.target.value)"
         class="input"

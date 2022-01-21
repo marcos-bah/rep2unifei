@@ -3,7 +3,7 @@
     <label class="label">Descrição do imovel:</label>
     <div class="control">
       <textarea
-        v-model="getDescricao"
+        v-text="getDescricao"
         @input="setDescricao($event.target.value)"
         class="textarea"
         placeholder="Amplo apartamento, permite cachorros ..."

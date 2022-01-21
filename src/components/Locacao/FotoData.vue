@@ -44,8 +44,6 @@ export default defineComponent({
   },
   methods: {
     async sendFile() {
-      console.log(process.env.VUE_APP_IMGUR_CLIENT_ID);
-
       let dataForm = new FormData();
       const fileElement = (this.$refs.file as HTMLInputElement).files;
 

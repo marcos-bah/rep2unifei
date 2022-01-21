@@ -1,14 +1,16 @@
 export default interface ILocacao {
-    id: number;
-    nome: string;
-    endereco: string;
+    id: string;
     contato: string;
-    descricao: string;
-    preco: number;
     data: Date;
+    descricao: string;
+    endereco: string;
+    estilo: [];
+    email: string;
+    foto: string;
+    nome: string;
+    preco: number;
     tipoAlocacao: [];
     tipoImovel: string;
     pessoas: number;
-    foto: string;
-    email: string;
+    site: string;
 }

@@ -11,11 +11,9 @@
           :locacao="locacao"
         />
       </div>
-      <article v-else class="message is-danger">
-        <div class="message-body">
-          Não há locações disponíveis para o tipo de locação selecionado.
-        </div>
-      </article>
+      <AlertMessage v-else>
+        <template #msg> Não existe nenhum resultado! </template>
+      </AlertMessage>
     </section>
   </div>
 </template>
@@ -26,6 +24,7 @@ import { useStore } from "vuex";
 import ILocacao from "@/interfaces/ILocacao";
 
 import CardLocacao from "./CardLocacao.vue";
+import AlertMessage from "./AlertMessage.vue";
 export default defineComponent({
   name: "SectionLocacao",
   setup() {
@@ -35,6 +34,7 @@ export default defineComponent({
   },
   components: {
     CardLocacao,
+    AlertMessage,
   },
   props: {
     titulo: {

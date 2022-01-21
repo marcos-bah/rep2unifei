@@ -1,6 +1,5 @@
 <template>
   <main class="container">
-    {{ type }}
     <Breadcrumb :tipos="tipos" />
     <SectionLocacao
       :id="tipo.titulo"

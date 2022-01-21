@@ -1,6 +1,5 @@
 import { RouteRecordRaw, createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
-import FormLocacao from "../views/FormLocacao.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -11,7 +10,8 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/form",
     name: "Form",
-    component: FormLocacao
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/FormLocacao.vue")
   },
   {
     path: "/about",
