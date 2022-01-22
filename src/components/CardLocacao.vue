@@ -30,8 +30,11 @@
           </div>
 
           <div class="tipo--informacoes">
-            <strong>Descrição:</strong>
-            {{ locacao.descricao || "Não informado" }}
+            <strong>Descrição: </strong>
+            <!-- limitar 20 caracteres -->
+
+            {{ locacao.descricao.substring(0, 40) + "..." || "Não informado" }}
+
             <br />
           </div>
 
@@ -50,6 +53,9 @@
       </div>
       <footer class="card-footer">
         <div class="card-footer-item">R$ {{ locacao.preco }}</div>
+        <a :href="locacao.site" target="_blank" class="card-footer-item"
+          >Site</a
+        >
       </footer>
     </div>
   </div>
@@ -77,5 +83,9 @@ export default defineComponent({
 <style scoped>
 .card {
   height: 100%;
+}
+
+.card:hover {
+  transform: scale(1.1);
 }
 </style>
