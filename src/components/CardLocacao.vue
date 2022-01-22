@@ -5,7 +5,7 @@
         classByDefault,
     }"
   >
-    <div class="card">
+    <div @click="$router.push('/view/' + locacao.id)" class="card">
       <div class="card-image">
         <figure class="image is-4by3">
           <img
@@ -53,9 +53,11 @@
       </div>
       <footer class="card-footer">
         <div class="card-footer-item">R$ {{ locacao.preco }}</div>
-        <a :href="locacao.site" target="_blank" class="card-footer-item"
-          >Site</a
-        >
+        <div class="card-footer-item">
+          {{
+            locacao.pessoas === 1 ? "Individual" : locacao.pessoas + " pessoas"
+          }}
+        </div>
       </footer>
     </div>
   </div>
@@ -84,8 +86,9 @@ export default defineComponent({
 .card {
   height: 100%;
 }
-
 .card:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
+  /* mudar pointer */
+  cursor: pointer;
 }
 </style>

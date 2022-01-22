@@ -10,7 +10,7 @@ import {
     User,
   } from "firebase/auth";
 
-import { collection, addDoc, getDocs } from "firebase/firestore";
+import { collection, addDoc, getDocs, getDoc, doc } from "firebase/firestore";
 import firebase from '@/firebase';
 
 export type State = {
@@ -71,6 +71,10 @@ export const store = createStore({
             const index = state.locacoes.findIndex(l => l.id === locacao.id);
             state.locacoes.splice(index, 1);
         },
+        getLocacaoById(state: State, id: string) {
+            const locacao = state.locacoes.find(l => l.id === id);
+            state.locacaoLocal = locacao as ILocacao;
+        },
         setSearch(state: State, search: string) {
             state.search = search;
         },
@@ -98,8 +102,6 @@ export const store = createStore({
                 site: '',
                 estilo: [],
             } as ILocacao
-
-            console.log(state.locacaoLocal);
             
         },
         setLocacaoLocalNome(state: State, nome: string) {
@@ -160,6 +162,8 @@ export const store = createStore({
             querySnapshot.forEach(doc => {
                 const locacao = doc.data() as ILocacao;
                 locacao.id = doc.id;
+                // mudar de timestamp para data
+                locacao.data = new Date(doc.data().data.seconds * 1000);
                 this.commit('addLocacao', locacao);
                 }
             );
@@ -178,6 +182,27 @@ export const store = createStore({
         // eslint-disable-next-line
         async removeLocacao({commit}, locacao: ILocacao) {
             await addDoc(collection(firebase.db, "locacoes"), locacao);
+        },
+        // get by id
+        // eslint-disable-next-line
+        async getLocacaoById({commit}, id: string) {
+            try {
+                this.commit('setLoading', true);
+                this.commit('clearLocacaoLocal');
+                const docRef = doc(firebase.db, `locacoes/${id}`);
+                const docSnap = await getDoc(docRef);
+                if(docSnap.exists()) {
+                    this.commit('setLocacaoLocal', docSnap.data() as ILocacao);
+                }else{
+                    console.log('Documento não encontrado');
+                }
+            } catch (error) {
+                console.log(error);
+                this.commit('setLoading', false);
+                
+            } finally {
+                this.commit('setLoading', false);
+            }
         },
         //login with email
         // eslint-disable-next-line
