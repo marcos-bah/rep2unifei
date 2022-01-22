@@ -74,13 +74,17 @@ export default defineComponent({
     const store = useStore();
     const loading = computed(() => store.state.loading);
     const getLocacaoById = (id: string) => store.dispatch("getLocacaoById", id);
+    const clearLocacao = () => store.commit("clearLocacaoLocal");
     const locacao = computed(() => {
       return store.state.locacaoLocal as ILocacao;
     });
-    return { locacao, getLocacaoById, loading };
+    return { locacao, getLocacaoById, loading, clearLocacao };
   },
   mounted() {
     this.getLocacaoById(this.$route.params.id.toString());
+  },
+  unmounted() {
+    this.clearLocacao();
   },
 });
 </script>
