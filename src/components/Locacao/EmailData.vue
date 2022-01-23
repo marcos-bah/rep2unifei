@@ -11,7 +11,7 @@
               @input="setEmail($event.target.value)"
               class="input"
               type="text"
-              placeholder="nome.sobrenome"
+              placeholder="Seu e-mail sem o @"
             />
           </p>
           <p class="control">
