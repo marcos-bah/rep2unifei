@@ -44,7 +44,7 @@
 
             <div class="field is-grouped">
               <div class="control" >
-                <SubmitButton @action="()=>{}"><template #text>Enviar</template></SubmitButton>
+                <SubmitButton @action="checkForm" :disabled="disabledButton"><template #text> Enviar </template></SubmitButton>
               </div>
             </div>
           </div>
@@ -83,7 +83,6 @@ export default defineComponent({
     const store = useStore();
     let locacoesData = store.state.locacaoLocal as ILocacao;
     const clearLocacao = () => store.commit("clearLocacaoLocal");
-
     const getUser = computed(() => store.state.user as User);
 
     return {
@@ -112,10 +111,14 @@ export default defineComponent({
     return {
       // erros tipo string array
       errors: [] as string[],
+      disabledButton: false,
     };
   },
+  unmounted() {
+    this.clearLocacao();
+  },
   methods: {
-    checkForm(event: Event) {
+    async checkForm() {
       this.errors = [];
       if (!this.locacoesData.nome) {
         this.errors.push("Por favor, preencha o nome.");
@@ -158,16 +161,22 @@ export default defineComponent({
       }
 
       if (this.errors.length) {
-        event.preventDefault();
         return false;
       }
 
-      this.store.commit("setLocacaoLocalEmail", this.getUser.email);
+      this.disabledButton = true;
 
-      this.store.dispatch("setLocacao", this.locacoesData).then(() => {
+      try {
+        this.store.commit("setLocacaoLocalEmail", this.getUser.email);
+        await this.store.dispatch("setLocacao", this.locacoesData);
+
         this.clearLocacao();
         this.$router.push("/");
-      });
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.disabledButton = false;
+      }
     },
   },
 });

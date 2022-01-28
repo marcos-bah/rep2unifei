@@ -64,7 +64,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+import { computed, defineComponent } from "vue";
 import ILocacao from "@/interfaces/ILocacao";
 import { useStore } from "vuex";
 

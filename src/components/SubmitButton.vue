@@ -1,5 +1,9 @@
 <template>
-  <button class="button is-primary" @click="$emit('action')">
+  <button
+    :disabled="disabled"
+    class="button is-primary"
+    @click="$emit('action')"
+  >
     <slot name="text"></slot>
   </button>
 </template>
@@ -8,6 +12,12 @@
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "Form",
+  props: {
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+  },
 });
 </script>
 

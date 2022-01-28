@@ -3,15 +3,22 @@ import { createStore } from "vuex";
 import ILocacao from '@/interfaces/ILocacao';
 
 import {
+    signOut,
     getAuth,
     isSignInWithEmailLink,
     sendSignInLinkToEmail,
     signInWithEmailLink,
     User,
+    browserLocalPersistence,
+    setPersistence,
   } from "firebase/auth";
 
 import { collection, addDoc, getDocs, getDoc, doc } from "firebase/firestore";
+
 import firebase from '@/firebase';
+
+//TODO: Vuex auth, Persistence State Vuex
+//TODO: MiddleWear 
 
 export type State = {
     locacoes: ILocacao[];
@@ -20,9 +27,8 @@ export type State = {
     // locacao
     locacaoLocal: ILocacao;
     //user firebase
-    user?: User;
+    user: User | null;
     loading: boolean;
-
 }
 
 const state: State = {
@@ -47,7 +53,7 @@ const state: State = {
         estilo: [],
     } as ILocacao,
     //user firebase
-    user: undefined,
+    user: getAuth(firebase.firebaseApp).currentUser,
     loading: false,
 }
 
@@ -145,10 +151,12 @@ export const store = createStore({
         },
         //user firebase
         setUser(state: State, user: User) {
+            localStorage.user = JSON.stringify(user);
             state.user = user;
         },
         clearUser(state: State) {
-            state.user = undefined;
+            localStorage.removeItem('user');
+            state.user = null;
         },
         setLoading(state: State, loading: boolean) {
             state.loading = loading;
@@ -157,16 +165,23 @@ export const store = createStore({
     actions: {
         // get
         async getLocacoes() {  
-            this.commit('clearLocacoes');
-            const querySnapshot = await getDocs(collection(firebase.db, "locacoes"));
-            querySnapshot.forEach(doc => {
-                const locacao = doc.data() as ILocacao;
-                locacao.id = doc.id;
-                // mudar de timestamp para data
-                locacao.data = new Date(doc.data().data.seconds * 1000);
-                this.commit('addLocacao', locacao);
-                }
-            );
+            try {
+                this.commit('setLoading', true);
+                this.commit('clearLocacoes');
+                const querySnapshot = await getDocs(collection(firebase.db, "locacoes"));
+                querySnapshot.forEach(doc => {
+                    const locacao = doc.data() as ILocacao;
+                    locacao.id = doc.id;
+                    // mudar de timestamp para data
+                    locacao.data = new Date(doc.data().data.seconds * 1000);
+                    this.commit('addLocacao', locacao);
+                    }
+                );
+            } catch (error) {
+                console.log(error);
+            } finally {
+                this.commit('setLoading', false);
+            }
         },
         // set
         // eslint-disable-next-line
@@ -204,32 +219,65 @@ export const store = createStore({
                 this.commit('setLoading', false);
             }
         },
+        // login localStorage
+        // eslint-disable-next-line
+        async loginLocalStorage({commit}) {
+            if(window.localStorage.getItem('user') !== null) {
+                const user = JSON.parse(window.localStorage.getItem('user') as string) as User;
+                this.commit('setUser',  user);
+            }
+        },
+
         //login with email
         // eslint-disable-next-line
         async loginWithEmailLink({commit}, url: string) {
+
             this.commit('setLoading', true);
 
+            if(window.localStorage.getItem('user') !== null) {
+                const user = JSON.parse(window.localStorage.getItem('user') as string) as User;
+                this.commit('setUser',  user);
+            }
+            
+            if(state.user !== null) {
+                this.commit('setLoading', false);
+                console.log('Usuário já logado');
+                return;
+            }
+
             try {
+                console.log('Tentando logar com email');
+                
+                
                 const auth = getAuth(firebase.firebaseApp);
 
                 if(!isSignInWithEmailLink(auth, url)) {
                     this.commit('setLoading', false);
+                    console.log('Link inválido');
                     return;
                 }
 
                 const email = url.slice(url.indexOf("=") + 1, url.indexOf("&"));
+                console.log(email);
+                
 
-                const credential = await signInWithEmailLink(auth, email, url);
-                const user = credential.user;
+                setPersistence(auth, browserLocalPersistence).then( async () => {
+                    console.log('Persistência ativada');
+                    const credential = await signInWithEmailLink(auth, email, url);
+                    const user = credential.user;
 
-                if (user) {
-                    this.commit('setUser', user);
-                }
+                    if (user) {
+                        console.log('Usuário logado com sucesso');
+                        this.commit('setUser', user);
+                    }
+                })
+
             } catch (error) {
                 console.log(error);
+            } finally {
                 this.commit('setLoading', false);
             }
-            this.commit('setLoading', false);
+            
         },
         //send link to email
         // eslint-disable-next-line
@@ -247,6 +295,20 @@ export const store = createStore({
                 throw error;
             }
         },
+        //logout
+        // eslint-disable-next-line
+        async logout({commit}) {
+            try {
+                this.commit('setLoading', true);
+                this.commit('clearUser');
+                localStorage.clear();
+                await signOut(getAuth(firebase.firebaseApp));
+            } catch (error) {
+                console.log(error);
+            } finally {
+                this.commit('setLoading', false);
+            }
+        }
     },
     getters: {
         getLocacoesData(state: State) {

@@ -64,6 +64,8 @@
             <strong>Cadastrar Locação</strong>
           </router-link>
         </div>
+
+        <SairButton />
       </div>
     </div>
   </nav>
@@ -72,6 +74,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useStore } from "vuex";
+import SairButton from "./SairButton.vue";
 export default defineComponent({
   name: "NavBar",
   setup() {
@@ -105,6 +108,7 @@ export default defineComponent({
       this.type(this.typeField);
     },
   },
+  components: { SairButton },
 });
 </script>
 

@@ -2,7 +2,7 @@
   <h2>Autentique-se</h2>
   <AlertMessage>
     <template #msg
-      >Para cadastrar uma locação você precisa pertencer ao dominio
+      >Para cadastrar/editar uma locação você precisa pertencer ao dominio
       @unifei.edu.br</template
     >
   </AlertMessage>
@@ -90,7 +90,8 @@ export default defineComponent({
         .dispatch("sendEmailLink", `${this.getEmail}@unifei.edu.br`)
         .then(
           (res) => {
-            this.msgSucesso = "E-mail enviado com sucesso!";
+            this.msgSucesso =
+              "E-mail enviado com sucesso! Feche essa aba e entre pelo link enviado.";
             this.msgErro = "";
           },
           (err) => {

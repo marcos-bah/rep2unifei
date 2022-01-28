@@ -1,5 +1,10 @@
 <template>
-  <main class="container">
+  <div class="container" v-if="isLoading">
+    <main class="content section m-0 p-3">
+      <Carregando />
+    </main>
+  </div>
+  <main v-else class="container">
     <Breadcrumb :tipos="tipos" />
     <SectionLocacao
       :id="tipo.titulo"
@@ -18,6 +23,7 @@ import { useStore } from "vuex";
 import ILocacao from "@/interfaces/ILocacao";
 import SectionLocacao from "@/components/SectionLocacao.vue";
 import Breadcrumb from "../components/Breadcrumb.vue";
+import Carregando from "./Carregando.vue";
 
 export default defineComponent({
   name: "MainLocacao",
@@ -25,6 +31,7 @@ export default defineComponent({
     const store = useStore();
     const locacoes = computed(() => store.state.locacoes);
     const search = computed(() => store.state.search);
+    const isLoading = computed(() => store.state.loading);
 
     const tipos = computed(() => [
       {
@@ -65,11 +72,12 @@ export default defineComponent({
       },
     ]);
 
-    return { locacoes, search, store, tipos };
+    return { locacoes, search, store, tipos, isLoading };
   },
   components: {
     Breadcrumb,
     SectionLocacao,
+    Carregando,
   },
   data() {
     return {

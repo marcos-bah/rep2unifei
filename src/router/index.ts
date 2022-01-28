@@ -14,6 +14,12 @@ const routes: Array<RouteRecordRaw> = [
       import(/* webpackChunkName: "about" */ "../views/FormLocacao.vue")
   },
   {
+    path: "/form/:id",
+    name: "FormEdit",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/FormLocacao.vue")
+  },
+  {
     path: "/about",
     name: "About",
     // route level code-splitting
