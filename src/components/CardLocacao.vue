@@ -28,13 +28,13 @@
         <span
           v-for="(estilo, index) in locacao.estilo"
           :key="index"
-          class="tag is-primary mb-4 mr-2"
+          class="tag is-primary mb-1 mr-2"
           >{{ estilo }}</span
         >
         <span
           v-for="(tipo, index) in locacao.tipoAlocacao"
           :key="index"
-          class="tag is-info mb-4 mr-2 mt-0"
+          class="tag is-info mb-1 mr-2 mt-0"
           >{{ tipo }}</span
         >
 
