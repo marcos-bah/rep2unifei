@@ -13,6 +13,7 @@ import {
     User,
     browserLocalPersistence,
     setPersistence,
+
 } from "firebase/auth";
 
 import {
@@ -21,6 +22,7 @@ import {
     getDocs,
     updateDoc,
     doc
+    , getDoc
 } from "firebase/firestore";
 
 import firebase from "@/firebase";
@@ -225,17 +227,21 @@ export const store = createStore({
         async getLocacaoById({ commit }, id: string) {
             try {
                 this.commit("setLoading", true);
+                this.commit('clearLocacaoLocal');
                 const target = state.locacoes.find((l) => l.id === id);
-                this.commit("setLocacaoLocal", target);
 
-                // this.commit('clearLocacaoLocal');
-                // const docRef = doc(firebase.db, `locacoes/${id}`);
-                // const docSnap = await getDoc(docRef);
-                // if(docSnap.exists()) {
-                //     this.commit('setLocacaoLocal', docSnap.data() as ILocacao);
-                // }else{
-                //     console.log('Documento não encontrado');
-                // }
+                if (target === undefined) {
+
+                    const docRef = doc(firebase.db, `locacoes/${id}`);
+                    const docSnap = await getDoc(docRef);
+                    if (docSnap.exists()) {
+                        this.commit('setLocacaoLocal', docSnap.data() as ILocacao);
+                    } else {
+                        console.log('Documento não encontrado');
+                    }
+                } else {
+                    this.commit("setLocacaoLocal", target);
+                }
             } catch (error) {
                 console.log(error);
                 this.commit("setLoading", false);
