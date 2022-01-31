@@ -1,9 +1,9 @@
 <template>
   <nav class="container navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <a class="navbar-item" href="/">
+      <router-link class="navbar-item" to="/">
         <div class="title">rep2unifei</div>
-      </a>
+      </router-link>
       <a
         :class="{ 'is-active': toggleBtn }"
         @click="toggle"

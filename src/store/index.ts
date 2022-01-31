@@ -1,6 +1,6 @@
 import { createStore } from "vuex";
 
-import ILocacao from '@/interfaces/ILocacao';
+import ILocacao from "@/interfaces/ILocacao";
 
 import {
     signOut,
@@ -11,14 +11,20 @@ import {
     User,
     browserLocalPersistence,
     setPersistence,
-  } from "firebase/auth";
+} from "firebase/auth";
 
-import { collection, addDoc, getDocs, updateDoc, doc } from "firebase/firestore";
+import {
+    collection,
+    addDoc,
+    getDocs,
+    updateDoc,
+    doc
+} from "firebase/firestore";
 
-import firebase from '@/firebase';
+import firebase from "@/firebase";
 
 //TODO: Vuex auth, Persistence State Vuex
-//TODO: MiddleWear 
+//TODO: MiddleWear
 
 export type State = {
     locacoes: ILocacao[];
@@ -29,35 +35,35 @@ export type State = {
     //user firebase
     user: User | null;
     loading: boolean;
-}
+};
 
 const state: State = {
     locacoes: [],
-    search: '',
-    type: 'all',
+    search: "",
+    type: "all",
     // locacao
     locacaoLocal: {
         visivel: true,
-        id: '',
-        nome: '',
-        endereco: '',
-        contato: '',
-        descricao: '',
+        id: "",
+        nome: "",
+        endereco: "",
+        contato: "",
+        descricao: "",
         preco: 0,
         data: new Date(),
         tipoAlocacao: [],
-        tipoImovel: 'República',
+        tipoImovel: "República",
         pessoas: 0,
-        foto: '',
-        email: '',
-        site: '',
+        foto: "",
+        email: "",
+        site: "",
         estilo: [],
         vagas: 0,
     } as ILocacao,
     //user firebase
     user: getAuth(firebase.firebaseApp).currentUser,
     loading: false,
-}
+};
 
 export const store = createStore({
     state,
@@ -72,15 +78,15 @@ export const store = createStore({
             state.locacoes = [];
         },
         updateLocacao(state: State, locacao: ILocacao) {
-            const index = state.locacoes.findIndex(l => l.id === locacao.id);
+            const index = state.locacoes.findIndex((l) => l.id === locacao.id);
             state.locacoes[index] = locacao;
         },
         removeLocacao(state: State, locacao: ILocacao) {
-            const index = state.locacoes.findIndex(l => l.id === locacao.id);
+            const index = state.locacoes.findIndex((l) => l.id === locacao.id);
             state.locacoes.splice(index, 1);
         },
         getLocacaoById(state: State, id: string) {
-            const locacao = state.locacoes.find(l => l.id === id);
+            const locacao = state.locacoes.find((l) => l.id === id);
             state.locacaoLocal = locacao as ILocacao;
         },
         setSearch(state: State, search: string) {
@@ -96,23 +102,22 @@ export const store = createStore({
         clearLocacaoLocal(state: State) {
             state.locacaoLocal = {
                 visivel: true,
-                id: '',
-                nome: '',
-                endereco: '',
-                contato: '',
-                descricao: '',
+                id: "",
+                nome: "",
+                endereco: "",
+                contato: "",
+                descricao: "",
                 preco: 0,
                 data: new Date(),
                 tipoAlocacao: [],
-                tipoImovel: 'República',
+                tipoImovel: "República",
                 pessoas: 0,
-                foto: '',
-                email: '',
-                site: '',
+                foto: "",
+                email: "",
+                site: "",
                 estilo: [],
                 vagas: 0,
-            } as ILocacao
-            
+            } as ILocacao;
         },
         setLocacaoLocalNome(state: State, nome: string) {
             state.locacaoLocal.nome = nome;
@@ -162,59 +167,64 @@ export const store = createStore({
             state.user = user;
         },
         clearUser(state: State) {
-            localStorage.removeItem('user');
+            localStorage.removeItem("user");
             state.user = null;
         },
         setLoading(state: State, loading: boolean) {
             state.loading = loading;
-        }
+        },
     },
     actions: {
         // get
-        async getLocacoes() {  
+        async getLocacoes() {
             try {
-                this.commit('setLoading', true);
-                this.commit('clearLocacoes');
-                const querySnapshot = await getDocs(collection(firebase.db, "locacoes"));
-                querySnapshot.forEach(doc => {
+                this.commit("setLoading", true);
+                this.commit("clearLocacoes");
+                // pegar DATE_UPDATE do localStorage e ver se tem mais de 5 min, se tiver atualizar
+
+                const querySnapshot = await getDocs(
+                    collection(firebase.db, "locacoes")
+                );
+                localStorage.setItem("dateUpdate", new Date().toString());
+
+                querySnapshot.forEach((doc) => {
                     const locacao = doc.data() as ILocacao;
                     locacao.id = doc.id;
                     // mudar de timestamp para data
                     locacao.data = new Date(doc.data().data.seconds * 1000);
-                    this.commit('addLocacao', locacao);
-                    }
-                );
+                    this.commit("addLocacao", locacao);
+                });
             } catch (error) {
                 console.log(error);
             } finally {
-                this.commit('setLoading', false);
+                this.commit("setLoading", false);
             }
         },
         // set
         // eslint-disable-next-line
-        async setLocacao({commit}, locacao: ILocacao) {
+        async setLocacao({ commit }, locacao: ILocacao) {
             locacao.data = new Date();
             await addDoc(collection(firebase.db, "locacoes"), locacao);
         },
         // update
         // eslint-disable-next-line
-        async updateLocacao({commit}, locacao: ILocacao) {
+        async updateLocacao({ commit }, locacao: ILocacao) {
             locacao.data = new Date();
-            const docRef = doc(firebase.db, "locacoes/"+locacao.id);
+            const docRef = doc(firebase.db, "locacoes/" + locacao.id);
             await updateDoc(docRef, JSON.parse(JSON.stringify(locacao)));
         },
         // remove
         // eslint-disable-next-line
-        async removeLocacao({commit}, locacao: ILocacao) {
+        async removeLocacao({ commit }, locacao: ILocacao) {
             await addDoc(collection(firebase.db, "locacoes"), locacao);
         },
         // get by id
         // eslint-disable-next-line
-        async getLocacaoById({commit}, id: string) {
+        async getLocacaoById({ commit }, id: string) {
             try {
-                this.commit('setLoading', true);
-                const target = state.locacoes.find(l => l.id === id);
-                this.commit('setLocacaoLocal', target);
+                this.commit("setLoading", true);
+                const target = state.locacoes.find((l) => l.id === id);
+                this.commit("setLocacaoLocal", target);
 
                 // this.commit('clearLocacaoLocal');
                 // const docRef = doc(firebase.db, `locacoes/${id}`);
@@ -226,75 +236,73 @@ export const store = createStore({
                 // }
             } catch (error) {
                 console.log(error);
-                this.commit('setLoading', false);
-                
+                this.commit("setLoading", false);
             } finally {
-                this.commit('setLoading', false);
+                this.commit("setLoading", false);
             }
         },
         // login localStorage
         // eslint-disable-next-line
-        async loginLocalStorage({commit}) {
-            if(window.localStorage.getItem('user') !== null) {
-                const user = JSON.parse(window.localStorage.getItem('user') as string) as User;
-                this.commit('setUser',  user);
+        async loginLocalStorage({ commit }) {
+            if (window.localStorage.getItem("user") !== null) {
+                const user = JSON.parse(
+                    window.localStorage.getItem("user") as string
+                ) as User;
+                this.commit("setUser", user);
             }
         },
 
         //login with email
         // eslint-disable-next-line
-        async loginWithEmailLink({commit}, url: string) {
+        async loginWithEmailLink({ commit }, url: string) {
+            this.commit("setLoading", true);
 
-            this.commit('setLoading', true);
-
-            if(window.localStorage.getItem('user') !== null) {
-                const user = JSON.parse(window.localStorage.getItem('user') as string) as User;
-                this.commit('setUser',  user);
+            if (window.localStorage.getItem("user") !== null) {
+                const user = JSON.parse(
+                    window.localStorage.getItem("user") as string
+                ) as User;
+                this.commit("setUser", user);
             }
-            
-            if(state.user !== null) {
-                this.commit('setLoading', false);
-                console.log('Usuário já logado');
+
+            if (state.user !== null) {
+                this.commit("setLoading", false);
+                console.log("Usuário já logado");
                 return;
             }
 
             try {
-                console.log('Tentando logar com email');
-                
-                
+                console.log("Tentando logar com email");
+
                 const auth = getAuth(firebase.firebaseApp);
 
-                if(!isSignInWithEmailLink(auth, url)) {
-                    this.commit('setLoading', false);
-                    console.log('Link inválido');
+                if (!isSignInWithEmailLink(auth, url)) {
+                    this.commit("setLoading", false);
+                    console.log("Link inválido");
                     return;
                 }
 
                 const email = url.slice(url.indexOf("=") + 1, url.indexOf("&"));
                 console.log(email);
-                
 
-                setPersistence(auth, browserLocalPersistence).then( async () => {
-                    console.log('Persistência ativada');
+                setPersistence(auth, browserLocalPersistence).then(async () => {
+                    console.log("Persistência ativada");
                     const credential = await signInWithEmailLink(auth, email, url);
                     const user = credential.user;
 
                     if (user) {
-                        console.log('Usuário logado com sucesso');
-                        this.commit('setUser', user);
+                        console.log("Usuário logado com sucesso");
+                        this.commit("setUser", user);
                     }
-                })
-
+                });
             } catch (error) {
                 console.log(error);
             } finally {
-                this.commit('setLoading', false);
+                this.commit("setLoading", false);
             }
-            
         },
         //send link to email
         // eslint-disable-next-line
-        async sendEmailLink({commit}, email: string) {
+        async sendEmailLink({ commit }, email: string) {
             const auth = getAuth(firebase.firebaseApp);
             const url = location.href + "?email=" + email;
 
@@ -310,25 +318,25 @@ export const store = createStore({
         },
         //logout
         // eslint-disable-next-line
-        async logout({commit}) {
+        async logout({ commit }) {
             try {
-                this.commit('setLoading', true);
-                this.commit('clearUser');
+                this.commit("setLoading", true);
+                this.commit("clearUser");
                 localStorage.clear();
                 await signOut(getAuth(firebase.firebaseApp));
             } catch (error) {
                 console.log(error);
             } finally {
-                this.commit('setLoading', false);
+                this.commit("setLoading", false);
             }
-        }
+        },
     },
     getters: {
         getLocacoesData(state: State) {
             return state.locacoes;
         },
         getLocacoesById(state: State, id: string) {
-            return state.locacoes.find(l => l.id === id);
+            return state.locacoes.find((l) => l.id === id);
         },
         getSearchData(state: State) {
             return state.search;
@@ -388,6 +396,5 @@ export const store = createStore({
             return state.user;
         },
     },
-    modules: {
-    }
+    modules: {},
 });
