@@ -21,9 +21,9 @@
 import { computed, defineComponent } from "vue";
 import { useStore } from "vuex";
 import ILocacao from "@/interfaces/ILocacao";
-import SectionLocacao from "@/components/SectionLocacao.vue";
-import Breadcrumb from "../components/Breadcrumb.vue";
-import Carregando from "./Carregando.vue";
+import SectionLocacao from "@/components/Home/SectionLocacao.vue";
+import Breadcrumb from "@/components/Home/Breadcrumb.vue";
+import Carregando from "@/components/Carregando.vue";
 
 export default defineComponent({
   name: "MainLocacao",
@@ -70,6 +70,18 @@ export default defineComponent({
             locacao.nome.toLowerCase().includes(search.value)
           ),
       },
+      {
+        titulo: "Casas",
+        descricao:
+          "Estas são nossas locações de casas disponiveis em nosso sistema",
+        lista: locacoes.value
+          .filter((locacao: ILocacao) =>
+            locacao.tipoImovel.toLowerCase().includes("casa")
+          )
+          .filter((locacao: ILocacao) =>
+            locacao.nome.toLowerCase().includes(search.value)
+          ),
+      },
     ]);
 
     return { locacoes, search, store, tipos, isLoading };
@@ -78,49 +90,6 @@ export default defineComponent({
     Breadcrumb,
     SectionLocacao,
     Carregando,
-  },
-  data() {
-    return {
-      baseUrl: process.env.VUE_APP_BASE_URL || "http://localhost:8080/",
-      // republicas: [] as ILocacao[],
-      // kitnets: [] as ILocacao[],
-      // apartamentos: [] as ILocacao[],
-      // tipos: [] as Array<{
-      //   titulo: string;
-      //   descricao: string;
-      //   lista: ILocacao[];
-      // }>,
-    };
-  },
-  computed: {},
-
-  mounted() {
-    // this.republicas = this.locacoes.filter((locacao: ILocacao) =>
-    //   locacao.tipoLocacao.toLowerCase().includes("rep")
-    // );
-    // this.kitnets = this.locacoes.filter((locacao: ILocacao) =>
-    //   locacao.tipoLocacao.toLowerCase().includes("kit")
-    // );
-    // this.apartamentos = this.locacoes.filter((locacao: ILocacao) =>
-    //   locacao.tipoLocacao.toLowerCase().includes("ap")
-    // );
-    // this.tipos = [
-    //   {
-    //     titulo: "Republicas",
-    //     descricao: "Republicas com vaga para crianças",
-    //     lista: this.republicas,
-    //   },
-    //   {
-    //     titulo: "Kitnets",
-    //     descricao: "Kitnets com vaga para crianças",
-    //     lista: this.kitnets,
-    //   },
-    //   {
-    //     titulo: "Apartamentos",
-    //     descricao: "Apartamentos com vaga para crianças",
-    //     lista: this.apartamentos,
-    //   },
-    // ];
   },
 });
 </script>

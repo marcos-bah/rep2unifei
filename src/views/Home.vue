@@ -8,7 +8,7 @@
 import { defineComponent } from "vue";
 import { useStore } from "vuex";
 
-import MainLocacao from "@/components/MainLocacao.vue";
+import MainLocacao from "@/components/Home/MainLocacao.vue";
 
 export default defineComponent({
   setup() {

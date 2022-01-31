@@ -45,9 +45,10 @@
             <input
               id="searchField"
               v-model="searchField"
+              @input="search($event.target.value)"
               class="input"
               type="text"
-              placeholder="Nome da alocação, endereço..."
+              placeholder="Nome da locação"
             />
           </p>
           <p class="control">

@@ -23,8 +23,8 @@ import { computed, defineComponent, PropType } from "vue";
 import { useStore } from "vuex";
 import ILocacao from "@/interfaces/ILocacao";
 
-import CardLocacao from "./CardLocacao.vue";
-import AlertMessage from "./AlertMessage.vue";
+import CardLocacao from "@/components/CardLocacao.vue";
+import AlertMessage from "@/components/AlertMessage.vue";
 export default defineComponent({
   name: "SectionLocacao",
   setup() {
