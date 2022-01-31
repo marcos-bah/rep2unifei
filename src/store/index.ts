@@ -13,7 +13,7 @@ import {
     setPersistence,
   } from "firebase/auth";
 
-import { collection, addDoc, getDocs, getDoc, doc } from "firebase/firestore";
+import { collection, addDoc, getDocs, updateDoc, doc } from "firebase/firestore";
 
 import firebase from '@/firebase';
 
@@ -186,12 +186,15 @@ export const store = createStore({
         // set
         // eslint-disable-next-line
         async setLocacao({commit}, locacao: ILocacao) {
+            locacao.data = new Date();
             await addDoc(collection(firebase.db, "locacoes"), locacao);
         },
         // update
         // eslint-disable-next-line
         async updateLocacao({commit}, locacao: ILocacao) {
-            await addDoc(collection(firebase.db, "locacoes"), locacao);
+            locacao.data = new Date();
+            const docRef = doc(firebase.db, "locacoes/"+locacao.id);
+            await updateDoc(docRef, JSON.parse(JSON.stringify(locacao)));
         },
         // remove
         // eslint-disable-next-line

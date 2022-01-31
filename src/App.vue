@@ -18,6 +18,7 @@ export default defineComponent({
   setup() {
     const store = useStore();
     store.dispatch("loginLocalStorage");
+    console.log("atualizando...");
   },
 });
 </script>

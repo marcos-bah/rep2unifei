@@ -44,7 +44,7 @@
 
             <div class="field is-grouped">
               <div class="control" >
-                <SubmitButton @action="checkForm" :disabled="disabledButton"><template #text> Enviar </template></SubmitButton>
+                <SubmitButton @action="checkForm" :disabled="disabledButton"><template #text> {{$route.params.id.toString().length ? 'Atualizar' : 'Enviar'}} </template></SubmitButton>
               </div>
             </div>
           </div>
@@ -173,7 +173,13 @@ export default defineComponent({
 
       try {
         this.store.commit("setLocacaoLocalEmail", this.getUser.email);
-        await this.store.dispatch("setLocacao", this.locacaoLocal);
+
+        if (this.$route.params.id.toString().length) {
+          await this.store.dispatch("updateLocacao", this.locacaoLocal);
+          console.log("Atualizado com sucesso!");
+        } else {
+          await this.store.dispatch("setLocacao", this.locacaoLocal);
+        }
 
         this.clearLocacao();
         this.$router.push("/");
