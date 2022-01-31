@@ -29,7 +29,7 @@
           "
         >
           <h3>Imagem</h3>
-          <figure class="image is-16by9">
+          <figure class="image">
             <img
               :src="
                 locacao.foto ||
@@ -99,5 +99,10 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style scoped>
+img {
+  width: max-content; /* or any custom size */
+  max-height: 500px;
+  object-fit: scale-down;
+}
 </style>

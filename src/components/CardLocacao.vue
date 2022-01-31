@@ -10,7 +10,7 @@
       class="card"
     >
       <div class="card-image">
-        <figure class="image is-4by3">
+        <figure class="image">
           <img
             :src="
               locacao.foto ||
@@ -102,6 +102,11 @@ export default defineComponent({
 </script>
 
 <style scoped>
+img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
 .card {
   height: 100%;
 }
