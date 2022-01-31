@@ -75,9 +75,7 @@
           {{ locacao.preco == 0 ? "A Combinar" : "R$ " + locacao.preco }}
         </div>
         <div class="card-footer-item">
-          {{
-            locacao.pessoas === 1 ? "Individual" : locacao.pessoas + " pessoas"
-          }}
+          {{ locacao.vagas === 1 ? "Individual" : locacao.vagas + " vagas" }}
         </div>
       </footer>
     </div>

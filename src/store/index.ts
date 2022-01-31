@@ -1,4 +1,6 @@
 import { createStore } from "vuex";
+import createPersistedState from 'vuex-persistedstate'
+import * as Cookies from 'js-cookie'
 
 import ILocacao from "@/interfaces/ILocacao";
 
@@ -397,4 +399,11 @@ export const store = createStore({
         },
     },
     modules: {},
+    plugins: [
+        createPersistedState({
+            storage: window.localStorage,
+            getState: (key) => Cookies.get(key),
+            setState: (key, state) => Cookies.set(key, state, { expires: 3, secure: true })
+        })
+    ],
 });

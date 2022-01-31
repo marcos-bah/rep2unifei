@@ -47,6 +47,8 @@
           <p>
             {{ locacao.descricao }}
           </p>
+          <h3>Vagas</h3>
+          <p>{{ locacao.vagas }} vagas disponíveis</p>
           <h3>Endereço</h3>
           <p>
             {{ locacao.endereco }}
