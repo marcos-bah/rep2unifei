@@ -17,7 +17,9 @@
       <span class="tag is-info mb-4 mr-2"
         >Capacidade: {{ locacao.pessoas }} pessoa (s)</span
       >
-      <blockquote>Adicionado por: {{ locacao.email }}</blockquote>
+      <blockquote>
+        Adicionado por: {{ protegerEmailLGPD(locacao.email) }}
+      </blockquote>
       <div class="columns">
         <div
           class="
@@ -40,13 +42,6 @@
           </figure>
         </div>
         <div class="column">
-          <h3>Sobre</h3>
-          <a :href="locacao.site" target="_blank" rel="noopener noreferrer"
-            ><span class="tag is-link mb-2">Visualizar site</span></a
-          >
-          <p>
-            {{ locacao.descricao }}
-          </p>
           <h3>Vagas</h3>
           <p>{{ locacao.vagas }} vagas disponíveis</p>
           <h3>Endereço</h3>
@@ -61,6 +56,14 @@
           </p>
         </div>
       </div>
+
+      <h3>Sobre</h3>
+      <a :href="locacao.site" target="_blank" rel="noopener noreferrer"
+        ><span class="tag is-link mb-2">Visualizar site</span></a
+      >
+      <p>
+        {{ locacao.descricao }}
+      </p>
 
       <h4>Algum problema?</h4>
       <p>
@@ -96,10 +99,23 @@ export default defineComponent({
   unmounted() {
     this.clearLocacao();
   },
+  methods: {
+    protegerEmailLGPD(email: string) {
+      // proteger o email
+      const emailParts = email.split("@");
+      return email
+        .replace(/^(.+)@(.+)$/, "$1@***.***")
+        .replace(emailParts[0].substring(3), "***");
+    },
+  },
 });
 </script>
 
 <style scoped>
+p {
+  text-align: justify;
+  white-space: pre-wrap;
+}
 img {
   width: max-content; /* or any custom size */
   max-height: 500px;
