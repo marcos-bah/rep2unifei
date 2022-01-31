@@ -203,14 +203,17 @@ export const store = createStore({
         async getLocacaoById({commit}, id: string) {
             try {
                 this.commit('setLoading', true);
-                this.commit('clearLocacaoLocal');
-                const docRef = doc(firebase.db, `locacoes/${id}`);
-                const docSnap = await getDoc(docRef);
-                if(docSnap.exists()) {
-                    this.commit('setLocacaoLocal', docSnap.data() as ILocacao);
-                }else{
-                    console.log('Documento não encontrado');
-                }
+                const target = state.locacoes.find(l => l.id === id);
+                this.commit('setLocacaoLocal', target);
+
+                // this.commit('clearLocacaoLocal');
+                // const docRef = doc(firebase.db, `locacoes/${id}`);
+                // const docSnap = await getDoc(docRef);
+                // if(docSnap.exists()) {
+                //     this.commit('setLocacaoLocal', docSnap.data() as ILocacao);
+                // }else{
+                //     console.log('Documento não encontrado');
+                // }
             } catch (error) {
                 console.log(error);
                 this.commit('setLoading', false);

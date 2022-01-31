@@ -18,17 +18,17 @@
         >Capacidade: {{ locacao.pessoas }} pessoa (s)</span
       >
       <blockquote>Adicionado por: {{ locacao.email }}</blockquote>
-      <h3>Imagem</h3>
       <div class="columns">
         <div
           class="
             column
-            is-half-fullhd
-            is-three-quarters-desktop
+            is-two-thirds-fullhd
+            is-two-thirds-desktop
             is-three-quarters-widescreen
-            is-three-quarters-tablet
+            is-two-thirds-tablet
           "
         >
+          <h3>Imagem</h3>
           <figure class="image is-16by9">
             <img
               :src="
@@ -39,24 +39,27 @@
             />
           </figure>
         </div>
+        <div class="column">
+          <h3>Sobre</h3>
+          <a :href="locacao.site" target="_blank" rel="noopener noreferrer"
+            ><span class="tag is-link mb-2">Visualizar site</span></a
+          >
+          <p>
+            {{ locacao.descricao }}
+          </p>
+          <h3>Endereço</h3>
+          <p>
+            {{ locacao.endereco }}
+          </p>
+          <h3>Preço</h3>
+          <p>R$ {{ locacao.preco }} por mês (valor aproximado)</p>
+          <h3>Contato</h3>
+          <p>
+            {{ locacao.contato }}
+          </p>
+        </div>
       </div>
-      <h3>Preço</h3>
-      <p>R$ {{ locacao.preco }} por mês (valor aproximado)</p>
-      <h3>Sobre</h3>
-      <a :href="locacao.site" target="_blank" rel="noopener noreferrer"
-        ><span class="tag is-link mb-2">Visualizar site</span></a
-      >
-      <p>
-        {{ locacao.descricao }}
-      </p>
-      <h3>Endereço</h3>
-      <p>
-        {{ locacao.endereco }}
-      </p>
-      <h3>Contato</h3>
-      <p>
-        {{ locacao.contato }}
-      </p>
+
       <h4>Algum problema?</h4>
       <p>Edite ou exclua a sua locação.</p>
     </div>
