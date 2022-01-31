@@ -1,6 +1,6 @@
 <template>
   <div class="field">
-    <label class="label">Estilo de alocação:</label>
+    <label class="label">Estilo da locação:</label>
     <!-- criar checkbox que pode selecionar mais que um vue.js -->
     <div class="control">
       <label class="checkbox" v-for="(e, index) in estilos" :key="index">

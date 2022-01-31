@@ -1,6 +1,6 @@
 <template>
   <div class="field">
-    <label class="label">Endereço alocação:</label>
+    <label class="label">Endereço locação:</label>
     <div class="control">
       <input
         :value="getEndereco"

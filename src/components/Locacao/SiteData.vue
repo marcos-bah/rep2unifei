@@ -7,7 +7,7 @@
         @input="setSite($event.target.value)"
         class="input"
         type="text"
-        placeholder="Rua, número, bairro ..."
+        placeholder="https://www.site.com.br"
       />
     </div>
     <p class="help">Instagram, Facebook, Site (apenas um link)</p>

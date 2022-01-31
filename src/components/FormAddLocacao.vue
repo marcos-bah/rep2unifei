@@ -1,6 +1,6 @@
 <template>
     <form id="app" @submit.prevent="checkForm" method="post">
-        <h2>Adicionar uma Alocação</h2>
+        <h2>Adicionar uma Locação</h2>
         <p v-if="errors.length">
             <b>Por favor, corrija o(s) seguinte(s) erro(s):</b>
             <ul>
@@ -30,6 +30,9 @@
             <!-- Número Pessoas -->
             <NumeroPessoasData />
 
+            <!-- Número Vagas -->
+            <NumeroVagasData />
+
             <!-- preço -->
             <PrecoData />
 
@@ -44,7 +47,7 @@
 
             <div class="field is-grouped">
               <div class="control" >
-                <SubmitButton @action="checkForm" :disabled="disabledButton"><template #text> {{$route.params.id.toString().length ? 'Atualizar' : 'Enviar'}} </template></SubmitButton>
+                <SubmitButton @action="checkForm" :disabled="disabledButton"><template #text> {{id.length ? 'Atualizar' : 'Enviar'}} </template></SubmitButton>
               </div>
             </div>
           </div>
@@ -60,8 +63,6 @@
 import { computed, defineComponent } from "vue";
 import { useStore } from "vuex";
 
-import ILocacao from "@/interfaces/ILocacao";
-
 import CardLocacao from "@/components/CardLocacao.vue";
 import ContatoData from "@/components/Locacao/ContatoData.vue";
 import DescricaoData from "@/components/Locacao/DescricaoData.vue";
@@ -76,6 +77,7 @@ import SubmitButton from "@/components/SubmitButton.vue";
 import EstiloData from "./Locacao/EstiloData.vue";
 import SiteData from "./Locacao/SiteData.vue";
 import { User } from "firebase/auth";
+import NumeroVagasData from "./Locacao/NumeroVagasData.vue";
 
 export default defineComponent({
   name: "FormAddLocacaco",
@@ -108,19 +110,23 @@ export default defineComponent({
     SubmitButton,
     EstiloData,
     SiteData,
+    NumeroVagasData,
   },
   data() {
     return {
       // erros tipo string array
       errors: [] as string[],
       disabledButton: false,
+      id: (this.$route.params.id || "").toString(),
     };
   },
   unmounted() {
     this.clearLocacao();
   },
   mounted() {
-    this.getLocacaoById(this.$route.params.id.toString());
+    if (this.id.length) {
+      this.getLocacaoById(this.id);
+    }
   },
   methods: {
     async checkForm() {
@@ -135,7 +141,7 @@ export default defineComponent({
         this.errors.push("Por favor, preencha a descrição.");
       }
       if (this.locacaoLocal.descricao.length < 10) {
-        this.errors.push("A descrição deve ter no mínimo 20 caracteres.");
+        this.errors.push("A descrição deve ter no mínimo 10 caracteres.");
       }
       if (this.locacaoLocal.tipoAlocacao.length === 0) {
         this.errors.push("Por favor, preencha o tipo.");
@@ -143,8 +149,8 @@ export default defineComponent({
       if (this.locacaoLocal.pessoas === 0) {
         this.errors.push("Por favor, preencha o número de pessoas.");
       }
-      if (this.locacaoLocal.preco === 0) {
-        this.errors.push("Por favor, preencha o preço.");
+      if (this.locacaoLocal.preco < 0) {
+        this.errors.push("Por favor, preencha um preço válido.");
       }
       if (!this.locacaoLocal.contato) {
         this.errors.push("Por favor, preencha o contato.");
@@ -163,6 +169,9 @@ export default defineComponent({
       }
       if (this.locacaoLocal.estilo.length === 0) {
         this.errors.push("Por favor, preencha o estilo.");
+      }
+      if (this.locacaoLocal.vagas === 0) {
+        this.errors.push("Por favor, preencha o número de vagas.");
       }
 
       if (this.errors.length) {

@@ -1,6 +1,6 @@
 <template>
   <div class="field">
-    <label class="label">Preço:</label>
+    <label class="label">Preço: (R$0,00 = a combinar)</label>
 
     <div class="field-body">
       <div class="field">
@@ -8,7 +8,7 @@
           <p class="control">
             <a class="button is-static"> R$ </a>
           </p>
-          <p class="control is-expanded mb-0 pb-0">
+          <p class="control is-expanded">
             <input
               :value="getPreco"
               @input="setPreco($event.target.value)"

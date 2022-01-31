@@ -1,6 +1,6 @@
 <template>
   <div class="field">
-    <label class="label">Descrição do imovel:</label>
+    <label class="label">Descrição da locação:</label>
     <div class="control">
       <textarea
         v-text="getDescricao"

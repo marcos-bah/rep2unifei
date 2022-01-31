@@ -5,7 +5,10 @@
         classByDefault,
     }"
   >
-    <div @click="$router.push('/view/' + locacao.id)" class="card">
+    <div
+      @click="locacao.id.length ? $router.push('/view/' + locacao.id) : null"
+      class="card"
+    >
       <div class="card-image">
         <figure class="image is-4by3">
           <img
@@ -33,7 +36,10 @@
             <strong>Descrição: </strong>
             <!-- limitar 20 caracteres -->
 
-            {{ locacao.descricao.substring(0, 40) + "..." || "Não informado" }}
+            {{
+              (locacao.endereco || "Não informado").substring(0, 40) + "..." ||
+              "Não informado"
+            }}
 
             <br />
           </div>
@@ -52,7 +58,9 @@
         </div>
       </div>
       <footer class="card-footer">
-        <div class="card-footer-item">R$ {{ locacao.preco }}</div>
+        <div class="card-footer-item">
+          {{ locacao.preco == 0 ? "A Combinar" : "R$ " + locacao.preco }}
+        </div>
         <div class="card-footer-item">
           {{
             locacao.pessoas === 1 ? "Individual" : locacao.pessoas + " pessoas"

@@ -37,6 +37,7 @@ const state: State = {
     type: 'all',
     // locacao
     locacaoLocal: {
+        visivel: true,
         id: '',
         nome: '',
         endereco: '',
@@ -51,6 +52,7 @@ const state: State = {
         email: '',
         site: '',
         estilo: [],
+        vagas: 0,
     } as ILocacao,
     //user firebase
     user: getAuth(firebase.firebaseApp).currentUser,
@@ -93,6 +95,7 @@ export const store = createStore({
         },
         clearLocacaoLocal(state: State) {
             state.locacaoLocal = {
+                visivel: true,
                 id: '',
                 nome: '',
                 endereco: '',
@@ -107,6 +110,7 @@ export const store = createStore({
                 email: '',
                 site: '',
                 estilo: [],
+                vagas: 0,
             } as ILocacao
             
         },
@@ -148,6 +152,9 @@ export const store = createStore({
         },
         setLocacaoLocalEstilo(state: State, estilo: []) {
             state.locacaoLocal.estilo = estilo;
+        },
+        setLocacaoLocalVagas(state: State, vagas: number) {
+            state.locacaoLocal.vagas = vagas;
         },
         //user firebase
         setUser(state: State, user: User) {
@@ -372,6 +379,10 @@ export const store = createStore({
         getLocacaoLocalEstilo(state: State) {
             return state.locacaoLocal.estilo;
         },
+        getLocacaoLocalVagas(state: State) {
+            return state.locacaoLocal.vagas;
+        },
+
         //user firebase
         getUser(state: State) {
             return state.user;

@@ -1,4 +1,5 @@
 export default interface ILocacao {
+    visivel: boolean;
     id: string;
     contato: string;
     data: Date;
@@ -12,5 +13,6 @@ export default interface ILocacao {
     tipoAlocacao: [];
     tipoImovel: string;
     pessoas: number;
+    vagas: number;
     site: string;
 }
