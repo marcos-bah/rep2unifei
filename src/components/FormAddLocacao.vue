@@ -183,7 +183,7 @@ export default defineComponent({
       try {
         this.store.commit("setLocacaoLocalEmail", this.getUser.email);
 
-        if (this.$route.params.id.toString().length) {
+        if (this.id.length) {
           await this.store.dispatch("updateLocacao", this.locacaoLocal);
           console.log("Atualizado com sucesso!");
         } else {
