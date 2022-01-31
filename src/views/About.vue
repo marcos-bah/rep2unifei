@@ -8,11 +8,11 @@
       </p>
       <h2>Desenvolvimento</h2>
       <p>
-        Este projeto foi construído com VueJs 3 e utiliza Typescript para o
-        código.
+        Este projeto ainda está em desenvolvimento, a aplicação pode conter
+        bugs, mas correções são adicionadas quase que diariamente.
       </p>
       <p>
-        Qualquer contribuição é bem vinda:
+        Qualquer sugestão é bem vinda:
         <a
           href="https://github.com/marcos-bah/rep2unifei/issues"
           target="_blank"
@@ -22,7 +22,9 @@
       </p>
       <p>
         O projeto foi desenvolvido por
-        <a href="https://github.com/marcos-bah" target="_blank">Marcos Bah</a>
+        <a href="https://github.com/marcos-bah" target="_blank"
+          >Marcos Barbosa</a
+        >
       </p>
     </div>
   </main>
