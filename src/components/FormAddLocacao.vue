@@ -50,7 +50,7 @@
           </div>
           <div class="column">
             <h2 class="mb-4">Preview</h2>
-            <CardLocacao :locacao="locacoesData" :classByDefault="false" />
+            <CardLocacao :locacao="locacaoLocal" :classByDefault="false" />
           </div>
         </div>
     </form>
@@ -81,15 +81,17 @@ export default defineComponent({
   name: "FormAddLocacaco",
   setup() {
     const store = useStore();
-    let locacoesData = store.state.locacaoLocal as ILocacao;
+    const locacaoLocal = computed(() => store.state.locacaoLocal);
     const clearLocacao = () => store.commit("clearLocacaoLocal");
     const getUser = computed(() => store.state.user as User);
+    const getLocacaoById = (id: string) => store.dispatch("getLocacaoById", id);
 
     return {
       store,
       clearLocacao,
-      locacoesData,
+      locacaoLocal,
       getUser,
+      getLocacaoById,
     };
   },
   components: {
@@ -117,46 +119,49 @@ export default defineComponent({
   unmounted() {
     this.clearLocacao();
   },
+  mounted() {
+    this.getLocacaoById(this.$route.params.id.toString());
+  },
   methods: {
     async checkForm() {
       this.errors = [];
-      if (!this.locacoesData.nome) {
+      if (!this.locacaoLocal.nome) {
         this.errors.push("Por favor, preencha o nome.");
       }
-      if (!this.locacoesData.endereco) {
+      if (!this.locacaoLocal.endereco) {
         this.errors.push("Por favor, preencha o endereço.");
       }
-      if (!this.locacoesData.descricao) {
+      if (!this.locacaoLocal.descricao) {
         this.errors.push("Por favor, preencha a descrição.");
       }
-      if (this.locacoesData.descricao.length < 10) {
+      if (this.locacaoLocal.descricao.length < 10) {
         this.errors.push("A descrição deve ter no mínimo 20 caracteres.");
       }
-      if (this.locacoesData.tipoAlocacao.length === 0) {
+      if (this.locacaoLocal.tipoAlocacao.length === 0) {
         this.errors.push("Por favor, preencha o tipo.");
       }
-      if (this.locacoesData.pessoas === 0) {
+      if (this.locacaoLocal.pessoas === 0) {
         this.errors.push("Por favor, preencha o número de pessoas.");
       }
-      if (this.locacoesData.preco === 0) {
+      if (this.locacaoLocal.preco === 0) {
         this.errors.push("Por favor, preencha o preço.");
       }
-      if (!this.locacoesData.contato) {
+      if (!this.locacaoLocal.contato) {
         this.errors.push("Por favor, preencha o contato.");
       }
-      if (!this.locacoesData.tipoImovel) {
+      if (!this.locacaoLocal.tipoImovel) {
         this.errors.push("Por favor, preencha o tipo de imóvel.");
       }
-      if (!this.locacoesData.foto) {
+      if (!this.locacaoLocal.foto) {
         this.errors.push("Por favor, preencha a foto.");
       }
-      if (!this.locacoesData.site) {
+      if (!this.locacaoLocal.site) {
         this.errors.push("Por favor, preencha o site.");
       }
-      if (this.locacoesData.site.length < 5) {
+      if (this.locacaoLocal.site.length < 5) {
         this.errors.push("O site deve ter no mínimo 5 caracteres.");
       }
-      if (this.locacoesData.estilo.length === 0) {
+      if (this.locacaoLocal.estilo.length === 0) {
         this.errors.push("Por favor, preencha o estilo.");
       }
 
@@ -168,7 +173,7 @@ export default defineComponent({
 
       try {
         this.store.commit("setLocacaoLocalEmail", this.getUser.email);
-        await this.store.dispatch("setLocacao", this.locacoesData);
+        await this.store.dispatch("setLocacao", this.locacaoLocal);
 
         this.clearLocacao();
         this.$router.push("/");

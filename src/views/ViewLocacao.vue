@@ -61,7 +61,12 @@
       </div>
 
       <h4>Algum problema?</h4>
-      <p>Edite ou exclua a sua locação.</p>
+      <p>
+        <router-link :to="'/form/' + $route.params.id.toString()"
+          >edite</router-link
+        >
+        ou exclua a sua locação.
+      </p>
     </div>
   </main>
 </template>

@@ -4,7 +4,6 @@
     <div class="file is-boxed pb-2">
       <label class="file-label">
         <input
-          :value="getFoto"
           @input="sendFile"
           class="file-input"
           accept="image/*"
