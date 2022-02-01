@@ -187,12 +187,12 @@ export default defineComponent({
       this.disabledButton = true;
 
       try {
-        this.store.commit("setLocacaoLocalEmail", this.getUser.email);
-
         if (this.id.length) {
+          this.store.commit("setLocacaoLocalEmail", this.getUser.email);
           await this.store.dispatch("updateLocacao", this.locacaoLocal);
           console.log("Atualizado com sucesso!");
         } else {
+          this.store.commit("setLocacaoLocalEmail", this.getUser.email);
           await this.store.dispatch("setLocacao", this.locacaoLocal);
         }
 

@@ -25,7 +25,7 @@
         ></AlertMessage
       >
       <blockquote>
-        Adicionado por: {{ protegerEmailLGPD(locacao.email) }}
+        Adicionado/Atualizado por: {{ protegerEmailLGPD(locacao.email) }}
       </blockquote>
       <div class="columns">
         <div

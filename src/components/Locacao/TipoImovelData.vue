@@ -3,13 +3,13 @@
     <label class="label">Tipo: </label>
     <div class="field is-grouped">
       <p class="control" v-for="(tipo, index) in tiposImoveis" :key="index">
-        <button
+        <a
           class="button"
           :class="{ 'is-info': getTipoImovel === tiposImoveis[index] }"
           @click="setTipoImovel(tiposImoveis[index])"
         >
           {{ tipo }}
-        </button>
+        </a>
       </p>
     </div>
   </div>
@@ -26,6 +26,7 @@ export default defineComponent({
     const getTipoImovel = computed(() => store.state.locacaoLocal.tipoImovel);
     const setTipoImovel = (e: string) => {
       store.commit("setLocacaoLocalTipoImovel", e);
+      return false;
     };
     return {
       store,

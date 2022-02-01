@@ -7,13 +7,13 @@
         v-for="(tipo, index) in tiposSexosPreferencia"
         :key="index"
       >
-        <button
+        <a
           class="button"
           :class="{ 'is-info': getSexo === tiposSexosPreferencia[index] }"
           @click="setSexo(tiposSexosPreferencia[index])"
         >
           {{ tipo }}
-        </button>
+        </a>
       </p>
     </div>
     <p class="help">Misto*: Recebe ambos os sexos</p>
