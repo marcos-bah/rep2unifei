@@ -45,12 +45,18 @@
             <br />
           </div>
 
+          <div class="tipo--vaga">
+            <strong>Sexo:</strong>
+            {{ locacao.sexo || "Não informado" }}
+            <br />
+          </div>
+
           <div class="tipo--informacoes">
             <strong>Descrição: </strong>
             <!-- limitar 20 caracteres -->
 
             {{
-              (locacao.des || "Não informado").substring(0, 40) + "..." ||
+              (locacao.descricao || "Não informado").substring(0, 40) + "..." ||
               "Não informado"
             }}
 
