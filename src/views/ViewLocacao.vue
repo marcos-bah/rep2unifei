@@ -18,6 +18,12 @@
       <span class="tag is-info mb-4 mr-2"
         >Capacidade: {{ locacao.pessoas }} pessoa (s)</span
       >
+      <AlertMessage>
+        <template #msg
+          >A plataforma não cobra nenhum valor e nem faz verificação da
+          autenticidade dos anuncios.</template
+        ></AlertMessage
+      >
       <blockquote>
         Adicionado por: {{ protegerEmailLGPD(locacao.email) }}
       </blockquote>
@@ -82,6 +88,7 @@ import { computed, defineComponent } from "vue";
 import ILocacao from "@/interfaces/ILocacao";
 import { useStore } from "vuex";
 import Carregando from "@/components/Carregando.vue";
+import AlertMessage from "@/components/AlertMessage.vue";
 
 export default defineComponent({
   name: "ViewLocacao",
@@ -105,12 +112,10 @@ export default defineComponent({
     protegerEmailLGPD(email: string) {
       // proteger o email
       const emailParts = email.split("@");
-      return email
-        .replace(/^(.+)@(.+)$/, "$1@***.***")
-        .replace(emailParts[0].substring(3), "***");
+      return email.replace(emailParts[0].substring(3), "***");
     },
   },
-  components: { Carregando },
+  components: { Carregando, AlertMessage },
 });
 </script>
 

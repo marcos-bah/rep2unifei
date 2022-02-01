@@ -50,7 +50,7 @@
             <!-- limitar 20 caracteres -->
 
             {{
-              (locacao.descricao || "Não informado").substring(0, 40) + "..." ||
+              (locacao.des || "Não informado").substring(0, 40) + "..." ||
               "Não informado"
             }}
 
