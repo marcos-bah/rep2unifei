@@ -6,7 +6,11 @@
     }"
   >
     <div
-      @click="locacao.id.length ? $router.push('/view/' + locacao.id) : null"
+      @click="
+        locacao.id.length
+          ? $router.push('/view/' + locacao.id + '#title')
+          : null
+      "
       class="card"
     >
       <div class="card-image">

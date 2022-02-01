@@ -1,8 +1,8 @@
 <template>
-  <main class="container">
+  <main class="container" id="main">
     <div class="content m-0 p-3" v-if="loading"><Carregando /></div>
     <div class="content m-0 p-3" v-else>
-      <h2>{{ locacao.nome }}</h2>
+      <h2 id="title">{{ locacao.nome }}</h2>
       <span
         v-for="(estilo, index) in locacao.estilo"
         :key="index"
