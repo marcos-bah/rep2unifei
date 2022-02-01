@@ -1,6 +1,6 @@
 import { createStore } from "vuex";
-import createPersistedState from 'vuex-persistedstate'
-import * as Cookies from 'js-cookie'
+
+
 
 import ILocacao from "@/interfaces/ILocacao";
 
@@ -66,6 +66,7 @@ const state: State = {
     user: getAuth(firebase.firebaseApp).currentUser,
     loading: false,
 };
+
 
 export const store = createStore({
     state,
@@ -398,12 +399,9 @@ export const store = createStore({
             return state.user;
         },
     },
-    modules: {},
-    plugins: [
-        createPersistedState({
-            storage: window.localStorage,
-            getState: (key) => Cookies.get(key),
-            setState: (key, state) => Cookies.set(key, state, { expires: 3, secure: true })
-        })
-    ],
+    modules: {
+
+    },
+
+
 });
