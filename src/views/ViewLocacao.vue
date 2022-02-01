@@ -1,6 +1,7 @@
 <template>
   <main class="container">
-    <div class="content m-0 p-3">
+    <div class="content m-0 p-3" v-if="loading"><Carregando /></div>
+    <div class="content m-0 p-3" v-else>
       <h2>{{ locacao.nome }}</h2>
       <span
         v-for="(estilo, index) in locacao.estilo"
@@ -80,6 +81,7 @@
 import { computed, defineComponent } from "vue";
 import ILocacao from "@/interfaces/ILocacao";
 import { useStore } from "vuex";
+import Carregando from "@/components/Carregando.vue";
 
 export default defineComponent({
   name: "ViewLocacao",
@@ -108,6 +110,7 @@ export default defineComponent({
         .replace(emailParts[0].substring(3), "***");
     },
   },
+  components: { Carregando },
 });
 </script>
 
