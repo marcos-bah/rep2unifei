@@ -1,6 +1,6 @@
 <template>
   <div class="field">
-    <label class="label">Número de Pessoas:</label>
+    <label class="label">Capacidade:</label>
     <div class="control">
       <input
         :value="getNumeroPessoas"

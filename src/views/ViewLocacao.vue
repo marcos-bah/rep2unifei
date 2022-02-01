@@ -1,6 +1,7 @@
 <template>
   <main class="container">
-    <div class="content m-0 p-3">
+    <div class="content m-0 p-3" v-if="loading"><Carregando /></div>
+    <div class="content m-0 p-3" v-else>
       <h2>{{ locacao.nome }}</h2>
       <span
         v-for="(estilo, index) in locacao.estilo"
@@ -17,7 +18,15 @@
       <span class="tag is-info mb-4 mr-2"
         >Capacidade: {{ locacao.pessoas }} pessoa (s)</span
       >
-      <blockquote>Adicionado por: {{ locacao.email }}</blockquote>
+      <AlertMessage>
+        <template #msg
+          >A plataforma não cobra nenhum valor e nem faz verificação da
+          autenticidade dos anuncios.</template
+        ></AlertMessage
+      >
+      <blockquote>
+        Adicionado por: {{ protegerEmailLGPD(locacao.email) }}
+      </blockquote>
       <div class="columns">
         <div
           class="
@@ -29,7 +38,7 @@
           "
         >
           <h3>Imagem</h3>
-          <figure class="image is-16by9">
+          <figure class="image">
             <img
               :src="
                 locacao.foto ||
@@ -40,13 +49,8 @@
           </figure>
         </div>
         <div class="column">
-          <h3>Sobre</h3>
-          <a :href="locacao.site" target="_blank" rel="noopener noreferrer"
-            ><span class="tag is-link mb-2">Visualizar site</span></a
-          >
-          <p>
-            {{ locacao.descricao }}
-          </p>
+          <h3>Vagas</h3>
+          <p>{{ locacao.vagas }} vagas disponíveis</p>
           <h3>Endereço</h3>
           <p>
             {{ locacao.endereco }}
@@ -59,6 +63,14 @@
           </p>
         </div>
       </div>
+
+      <h3>Sobre</h3>
+      <a :href="locacao.site" target="_blank" rel="noopener noreferrer"
+        ><span class="tag is-link mb-2">Visualizar site</span></a
+      >
+      <p>
+        {{ locacao.descricao }}
+      </p>
 
       <h4>Algum problema?</h4>
       <p>
@@ -75,6 +87,8 @@
 import { computed, defineComponent } from "vue";
 import ILocacao from "@/interfaces/ILocacao";
 import { useStore } from "vuex";
+import Carregando from "@/components/Carregando.vue";
+import AlertMessage from "@/components/AlertMessage.vue";
 
 export default defineComponent({
   name: "ViewLocacao",
@@ -94,8 +108,25 @@ export default defineComponent({
   unmounted() {
     this.clearLocacao();
   },
+  methods: {
+    protegerEmailLGPD(email: string) {
+      // proteger o email
+      const emailParts = email.split("@");
+      return email.replace(emailParts[0].substring(3), "***");
+    },
+  },
+  components: { Carregando, AlertMessage },
 });
 </script>
 
-<style>
+<style scoped>
+p {
+  text-align: justify;
+  white-space: pre-wrap;
+}
+img {
+  width: max-content; /* or any custom size */
+  max-height: 500px;
+  object-fit: scale-down;
+}
 </style>

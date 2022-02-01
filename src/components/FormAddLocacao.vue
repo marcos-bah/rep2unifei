@@ -21,12 +21,18 @@
             <!-- Site -->
             <SiteData />
 
+            <!-- Sexo Preferencia -->
+            <SexoPreferenciaData />
+
             <!-- Tipo -->
             <TipoData />
 
             <!-- Estilo -->
             <EstiloData />
 
+            <!-- tipo locacao -->
+            <TipoImovelData />
+            
             <!-- Número Pessoas -->
             <NumeroPessoasData />
 
@@ -39,8 +45,6 @@
             <!-- contato locacao -->
             <ContatoData />
 
-            <!-- tipo locacao -->
-            <TipoImovelData />
 
             <!-- foto -->
             <FotoData />
@@ -78,6 +82,7 @@ import EstiloData from "./Locacao/EstiloData.vue";
 import SiteData from "./Locacao/SiteData.vue";
 import { User } from "firebase/auth";
 import NumeroVagasData from "./Locacao/NumeroVagasData.vue";
+import SexoPreferenciaData from "./Locacao/SexoPreferenciaData.vue";
 
 export default defineComponent({
   name: "FormAddLocacaco",
@@ -111,6 +116,7 @@ export default defineComponent({
     EstiloData,
     SiteData,
     NumeroVagasData,
+    SexoPreferenciaData,
   },
   data() {
     return {
@@ -183,7 +189,7 @@ export default defineComponent({
       try {
         this.store.commit("setLocacaoLocalEmail", this.getUser.email);
 
-        if (this.$route.params.id.toString().length) {
+        if (this.id.length) {
           await this.store.dispatch("updateLocacao", this.locacaoLocal);
           console.log("Atualizado com sucesso!");
         } else {

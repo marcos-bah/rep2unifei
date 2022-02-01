@@ -10,7 +10,7 @@
       class="card"
     >
       <div class="card-image">
-        <figure class="image is-4by3">
+        <figure class="image">
           <img
             :src="
               locacao.foto ||
@@ -28,13 +28,13 @@
         <span
           v-for="(estilo, index) in locacao.estilo"
           :key="index"
-          class="tag is-primary mb-4 mr-2"
+          class="tag is-primary mb-1 mr-2"
           >{{ estilo }}</span
         >
         <span
           v-for="(tipo, index) in locacao.tipoAlocacao"
           :key="index"
-          class="tag is-info mb-4 mr-2 mt-0"
+          class="tag is-info mb-1 mr-2 mt-0"
           >{{ tipo }}</span
         >
 
@@ -45,12 +45,18 @@
             <br />
           </div>
 
+          <div class="tipo--vaga">
+            <strong>Sexo:</strong>
+            {{ locacao.sexo || "Não informado" }}
+            <br />
+          </div>
+
           <div class="tipo--informacoes">
             <strong>Descrição: </strong>
             <!-- limitar 20 caracteres -->
 
             {{
-              (locacao.endereco || "Não informado").substring(0, 40) + "..." ||
+              (locacao.descricao || "Não informado").substring(0, 40) + "..." ||
               "Não informado"
             }}
 
@@ -75,9 +81,7 @@
           {{ locacao.preco == 0 ? "A Combinar" : "R$ " + locacao.preco }}
         </div>
         <div class="card-footer-item">
-          {{
-            locacao.pessoas === 1 ? "Individual" : locacao.pessoas + " pessoas"
-          }}
+          {{ locacao.vagas === 1 ? "Individual" : locacao.vagas + " vagas" }}
         </div>
       </footer>
     </div>
@@ -104,6 +108,11 @@ export default defineComponent({
 </script>
 
 <style scoped>
+img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
 .card {
   height: 100%;
 }

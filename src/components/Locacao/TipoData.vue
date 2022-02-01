@@ -1,6 +1,6 @@
 <template>
   <div class="field">
-    <label class="label">Tipo de alocação:</label>
+    <label class="label">Tipo de locação:</label>
     <!-- criar checkbox que pode selecionar mais que um vue.js -->
     <div class="control">
       <label class="checkbox">

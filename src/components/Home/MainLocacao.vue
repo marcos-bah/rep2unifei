@@ -37,7 +37,7 @@ export default defineComponent({
       {
         titulo: "Repúblicas",
         descricao:
-          "Estas são nossas locações de repúblicas disponiveis em nosso sistema",
+          "Estas são nossas locações de repúblicas disponiveis em nosso sistema.",
         lista: locacoes.value
           .filter((locacao: ILocacao) =>
             locacao.tipoImovel.toLowerCase().includes("rep")
@@ -49,7 +49,7 @@ export default defineComponent({
       {
         titulo: "Kitnets",
         descricao:
-          "Estas são nossas locações de kitnets disponiveis em nosso sistema",
+          "Estas são nossas locações de kitnets disponiveis em nosso sistema.",
         lista: locacoes.value
           .filter((locacao: ILocacao) =>
             locacao.tipoImovel.toLowerCase().includes("kit")
@@ -61,7 +61,7 @@ export default defineComponent({
       {
         titulo: "Apartamentos",
         descricao:
-          "Estas são nossas locações de apartamentos disponiveis em nosso sistema",
+          "Estas são nossas locações de apartamentos disponiveis em nosso sistema.",
         lista: locacoes.value
           .filter((locacao: ILocacao) =>
             locacao.tipoImovel.toLowerCase().includes("apart")
@@ -73,7 +73,7 @@ export default defineComponent({
       {
         titulo: "Casas",
         descricao:
-          "Estas são nossas locações de casas disponiveis em nosso sistema",
+          "Estas são nossas locações de casas disponiveis em nosso sistema.",
         lista: locacoes.value
           .filter((locacao: ILocacao) =>
             locacao.tipoImovel.toLowerCase().includes("casa")

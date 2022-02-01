@@ -1,4 +1,6 @@
 import { createStore } from "vuex";
+import createPersistedState from 'vuex-persistedstate'
+import * as Cookies from 'js-cookie'
 
 import ILocacao from "@/interfaces/ILocacao";
 
@@ -11,6 +13,7 @@ import {
     User,
     browserLocalPersistence,
     setPersistence,
+
 } from "firebase/auth";
 
 import {
@@ -19,6 +22,7 @@ import {
     getDocs,
     updateDoc,
     doc
+    , getDoc
 } from "firebase/firestore";
 
 import firebase from "@/firebase";
@@ -45,6 +49,7 @@ const state: State = {
     locacaoLocal: {
         visivel: true,
         id: "",
+        sexo: "Sem preferencia",
         nome: "",
         endereco: "",
         contato: "",
@@ -59,6 +64,7 @@ const state: State = {
         site: "",
         estilo: [],
         vagas: 0,
+
     } as ILocacao,
     //user firebase
     user: getAuth(firebase.firebaseApp).currentUser,
@@ -103,6 +109,7 @@ export const store = createStore({
             state.locacaoLocal = {
                 visivel: true,
                 id: "",
+                sexo: "Sem preferencia",
                 nome: "",
                 endereco: "",
                 contato: "",
@@ -152,6 +159,7 @@ export const store = createStore({
         setLocacaoLocalEmail(state: State, email: string) {
             state.locacaoLocal.email = email;
         },
+
         setLocacaoLocalSite(state: State, site: string) {
             state.locacaoLocal.site = site;
         },
@@ -160,6 +168,9 @@ export const store = createStore({
         },
         setLocacaoLocalVagas(state: State, vagas: number) {
             state.locacaoLocal.vagas = vagas;
+        },
+        setLocacaoLocalSexo(state: State, sexo: string) {
+            state.locacaoLocal.sexo = sexo;
         },
         //user firebase
         setUser(state: State, user: User) {
@@ -223,17 +234,21 @@ export const store = createStore({
         async getLocacaoById({ commit }, id: string) {
             try {
                 this.commit("setLoading", true);
+                this.commit('clearLocacaoLocal');
                 const target = state.locacoes.find((l) => l.id === id);
-                this.commit("setLocacaoLocal", target);
 
-                // this.commit('clearLocacaoLocal');
-                // const docRef = doc(firebase.db, `locacoes/${id}`);
-                // const docSnap = await getDoc(docRef);
-                // if(docSnap.exists()) {
-                //     this.commit('setLocacaoLocal', docSnap.data() as ILocacao);
-                // }else{
-                //     console.log('Documento não encontrado');
-                // }
+                if (target === undefined) {
+
+                    const docRef = doc(firebase.db, `locacoes/${id}`);
+                    const docSnap = await getDoc(docRef);
+                    if (docSnap.exists()) {
+                        this.commit('setLocacaoLocal', docSnap.data() as ILocacao);
+                    } else {
+                        console.log('Documento não encontrado');
+                    }
+                } else {
+                    this.commit("setLocacaoLocal", target);
+                }
             } catch (error) {
                 console.log(error);
                 this.commit("setLoading", false);
@@ -363,6 +378,7 @@ export const store = createStore({
         getLocacaoLocalPreco(state: State) {
             return state.locacaoLocal.preco;
         },
+
         getLocacaoLocalData(state: State) {
             return state.locacaoLocal.data;
         },
@@ -375,6 +391,7 @@ export const store = createStore({
         getLocacaoLocalPessoas(state: State) {
             return state.locacaoLocal.pessoas;
         },
+
         getLocacaoLocalFoto(state: State) {
             return state.locacaoLocal.foto;
         },
@@ -390,6 +407,9 @@ export const store = createStore({
         getLocacaoLocalVagas(state: State) {
             return state.locacaoLocal.vagas;
         },
+        getLocacaoLocalSexo(state: State) {
+            return state.locacaoLocal.sexo;
+        },
 
         //user firebase
         getUser(state: State) {
@@ -397,4 +417,11 @@ export const store = createStore({
         },
     },
     modules: {},
+    plugins: [
+        createPersistedState({
+            storage: window.localStorage,
+            getState: (key) => Cookies.get(key),
+            setState: (key, state) => Cookies.set(key, state, { expires: 3, secure: true })
+        })
+    ],
 });

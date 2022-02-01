@@ -1,15 +1,16 @@
 <template>
   <div class="field">
     <label class="label">Tipo: </label>
-    <div class="control">
-      <div class="select">
-        <select @change="setTipoImovel($event.target.value)">
-          <option value="República">Republica</option>
-          <option value="Kitnet">Kitnet</option>
-          <option value="Apartamento">Apartamento</option>
-          <option value="Casa">Casa</option>
-        </select>
-      </div>
+    <div class="field is-grouped">
+      <p class="control" v-for="(tipo, index) in tiposImoveis" :key="index">
+        <button
+          class="button"
+          :class="{ 'is-info': getTipoImovel === tiposImoveis[index] }"
+          @click="setTipoImovel(tiposImoveis[index])"
+        >
+          {{ tipo }}
+        </button>
+      </p>
     </div>
   </div>
 </template>
@@ -30,6 +31,11 @@ export default defineComponent({
       store,
       setTipoImovel,
       getTipoImovel,
+    };
+  },
+  data() {
+    return {
+      tiposImoveis: ["República", "Kitnet", "Apartamento", "Casa"],
     };
   },
 });

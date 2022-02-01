@@ -1,6 +1,7 @@
 export default interface ILocacao {
     visivel: boolean;
     id: string;
+    sexo: string;
     contato: string;
     data: Date;
     descricao: string;
