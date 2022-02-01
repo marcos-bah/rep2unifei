@@ -56,7 +56,13 @@
             {{ locacao.endereco }}
           </p>
           <h3>Preço</h3>
-          <p>R$ {{ locacao.preco }} por mês (valor aproximado)</p>
+          <p>
+            {{
+              locacao.preco !== 0
+                ? "R$ " + locacao.preco + " /mês (valor aproximado)"
+                : "A combinar"
+            }}
+          </p>
           <h3>Contato</h3>
           <p>
             {{ locacao.contato }}
