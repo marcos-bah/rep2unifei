@@ -18,12 +18,7 @@
       <span class="tag is-info mb-4 mr-2"
         >Capacidade: {{ locacao.pessoas }} pessoa (s)</span
       >
-      <AlertMessage>
-        <template #msg
-          >A plataforma não cobra nenhum valor e nem faz verificação da
-          autenticidade dos anuncios.</template
-        ></AlertMessage
-      >
+
       <blockquote>
         Adicionado/Atualizado por: {{ protegerEmailLGPD(locacao.email) }}
       </blockquote>
@@ -77,6 +72,13 @@
       <p>
         {{ locacao.descricao }}
       </p>
+
+      <AlertMessage>
+        <template #msg
+          >A plataforma não cobra nenhum valor e nem faz verificação da
+          autenticidade dos anuncios.</template
+        ></AlertMessage
+      >
 
       <h4>Algum problema?</h4>
       <p>
